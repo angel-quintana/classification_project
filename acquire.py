@@ -1,12 +1,13 @@
 import pandas as pd
 import numpy as np
-
 import env
 import os
 
+
 def check_file_exists(filename, query, url):
     '''
-    students - add docstring
+    function when ran by other functions checks for cached data and 
+    if not found, runs sql query to retrieve data with user env
     '''
     if os.path.exists(filename):
         print('this file exists, reading csv')
@@ -21,7 +22,7 @@ def check_file_exists(filename, query, url):
 
 def get_telco_data():
     '''
-    students - add docstring
+    loads telco data from system or sql query
     '''
     url = env.get_db_url('telco_churn')
     query = '''

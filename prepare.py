@@ -7,8 +7,8 @@ from sklearn.model_selection import train_test_split
 def prep_telco(df):
     '''
     input dataframe
-    removes redundant cols,
-    fills blank spaces with 0.0
+    removes redundant cols (type_id's),
+    fills blank spaces with 0.0 (total_charges)
     outputs clean dataframe
     '''
     df = df.drop(columns = ['payment_type_id','internet_service_type_id','contract_type_id'])
@@ -21,7 +21,8 @@ def encode_telco(df):
     '''
     input dataframe
     returns with encoded columns
-    outputs all numeric dataframe
+    drops original string columns including customer_id
+    outputs all numeric dataframe ready for models
     '''
     telco_p = df
     telco_p = telco_p.assign(sex_male = np.where(telco_p['gender'] == 'Male', 1, 0))
@@ -54,7 +55,8 @@ def encode_telco(df):
 
 def splitting_data(df, col):
     '''
-    input dataframe and target variable to stratify on 
+    input dataframe and target variable to stratify on
+    returns 3 dataframes serving as train, validate, and test samples
     '''
 
     #first split
@@ -73,3 +75,40 @@ def splitting_data(df, col):
                                      )
     return train, validate, test
 
+def compute_class_metrics(y_train, y_pred):
+    '''
+    input y_train and y_pred to return evaluation stats
+    '''
+    
+    counts = pd.crosstab(y_train, y_pred)
+    TP = counts.iloc[1,1]
+    TN = counts.iloc[0,0]
+    FP = counts.iloc[0,1]
+    FN = counts.iloc[1,0]
+    
+    
+    all_ = (TP + TN + FP + FN)
+
+    accuracy = (TP + TN) / all_
+
+    TPR = recall = TP / (TP + FN)
+    FPR = FP / (FP + TN)
+
+    TNR = TN / (FP + TN)
+    FNR = FN / (FN + TP)
+
+    precision =  TP / (TP + FP)
+    f1 =  2 * ((precision * recall) / ( precision + recall))
+
+    support_pos = TP + FN
+    support_neg = FP + TN
+    
+    print(f"Accuracy: {accuracy}\n")
+    print(f"True Positive Rate/Sensitivity/Recall/Power: {TPR}")
+    print(f"False Positive Rate/False Alarm Ratio/Fall-out: {FPR}")
+    print(f"True Negative Rate/Specificity/Selectivity: {TNR}")
+    print(f"False Negative Rate/Miss Rate: {FNR}\n")
+    print(f"Precision/PPV: {precision}")
+    print(f"F1 Score: {f1}\n")
+    print(f"Support (0): {support_pos}")
+    print(f"Support (1): {support_neg}")
