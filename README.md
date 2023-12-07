@@ -13,8 +13,6 @@ Project Goals
 Initial Hypotheses 
 - I assume contract_types, monthly charges, and whether or not a customer has phone/internet service to impact churn the most. 
 
--data dictionary
-
 -project planning 
 
     Aquire data using import/ sql query
@@ -32,12 +30,23 @@ Initial Hypotheses
 
     Develop a Model to predict if a customer will churn
 
-        Use features identified in explore to build predictive models of different types
-        Evaluate models on train and validate data
-        Select the best model based on highest accuracy
-        Evaluate the best model on test data
+        -Use features identified in explore to build predictive models of different types
+        -Evaluate models on train and validate data
+        -Select the best model based on highest accuracy
+        -Evaluate the best model on test data
     Draw conclusions
 
--instructions or an explanation of how someone else can reproduce your project and findings (What would someone need to be able to recreate your project on their own?)
+-Conclusions
 
--key findings, recommendations, and takeaways from your project
+- Exploration
+        
+        - Churn accounts for about 73% of customers
+        
+- Modeling
+        
+        - Random Forest is the best model.
+        
+- Recomendations
+
+        - Continue investigating for features that correlate to churn to develop more accurate models
+        - Implement said models for establishing better business solutions
